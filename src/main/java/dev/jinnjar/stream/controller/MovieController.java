@@ -2,14 +2,17 @@ package dev.jinnjar.stream.controller;
 
 import dev.jinnjar.stream.model.Movie;
 import dev.jinnjar.stream.service.MovieService;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author adnan
@@ -25,5 +28,10 @@ public class MovieController {
     @GetMapping
     public ResponseEntity<List<Movie>> showAllMovies() {
         return new ResponseEntity<>(movieService.findAllMovies(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{imdbId}")
+    public ResponseEntity<Optional<Movie>> showSingleMovie(@PathVariable String imdbId) {
+        return new ResponseEntity<>(movieService.findMovieByImdbId(imdbId), HttpStatus.OK);
     }
 }
